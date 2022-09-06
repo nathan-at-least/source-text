@@ -7,14 +7,15 @@
 //!
 //! ```
 //! use indoc::indoc; // For cleanly formatting test assertions.
+//! use source_text::Parsable;
 //!
 //! #[derive(Debug)]
 //! pub struct Config {
 //!     // ...
 //! }
 //!
-//! impl Config {
-//!     fn parse_str(text: &str) -> anyhow::Result<Self> {
+//! impl Parsable for Config {
+//!     fn parse_text(text: &str) -> anyhow::Result<Self> {
 //!         if text.is_empty() {
 //!             Err(anyhow::Error::msg("empty input\n"))
 //!         } else {
@@ -24,13 +25,13 @@
 //! }
 //!
 //! fn parse_empty_config() -> anyhow::Result<()> {
-//!     let config = source_text::process_text("", Config::parse_str)?;
+//!     let config = Config::parse_source("")?;
 //!     panic!("Unexpectedly parsed config: {:?}", config);
 //! }
 //!
 //! fn parse_non_existent_file() -> anyhow::Result<()> {
 //!     let configpath = std::path::Path::new("/__this_path_should_not_exist__");
-//!     let config = source_text::process_text(configpath, Config::parse_str)?;
+//!     let config = Config::parse_source(configpath)?;
 //!     panic!("Unexpectedly parsed config: {:?}", config);
 //! }
 //!
@@ -66,7 +67,9 @@
 mod load;
 mod process;
 mod source;
+mod parsable;
 
 pub use self::load::LoadSource;
 pub use self::process::{process, process_text};
 pub use self::source::Source;
+pub use self::parsable::Parsable;
