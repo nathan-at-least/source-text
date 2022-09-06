@@ -3,6 +3,7 @@ use std::path::Path;
 
 /// Any type that can load a [Source] synchronously.
 pub trait LoadSource {
+    /// Load this value synchronously into a [Source] value.
     fn load(&self) -> anyhow::Result<Source>;
 }
 

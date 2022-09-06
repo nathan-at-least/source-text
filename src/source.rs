@@ -11,6 +11,7 @@ pub struct Source<'a> {
 }
 
 impl<'a> Source<'a> {
+    /// Create a new [Source] with a given origin name. Example: `Source::new_named("<built-in>", "my text")`
     pub fn new_named<N, T>(name: N, text: T) -> Self
     where
         Cow<'a, str>: From<N>,
@@ -22,6 +23,7 @@ impl<'a> Source<'a> {
         }
     }
 
+    /// Create a new [Source] without an origin name. Example: `Source::new_unnamed("my text")`
     pub fn new_unnamed<T>(text: T) -> Self
     where
         Cow<'a, str>: From<T>,
@@ -31,6 +33,8 @@ impl<'a> Source<'a> {
             text: Cow::from(text),
         }
     }
+
+    /// Borrow the name of this [Source], which if absent defaults to `"<string>"`.
     pub fn name(&self) -> &str {
         self.name
             .as_ref()
@@ -38,6 +42,7 @@ impl<'a> Source<'a> {
             .unwrap_or("<string>")
     }
 
+    /// Borrow the text of this [Source].
     pub fn text(&self) -> &str {
         self.text.as_ref()
     }
