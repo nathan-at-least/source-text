@@ -10,7 +10,8 @@ pub trait Parsable: Sized {
     ///
     /// The default implementation loads the source and delegates to [Parsable::parse_text].
     fn parse_source<S>(source: S) -> anyhow::Result<Self>
-        where S: LoadSource,
+    where
+        S: LoadSource,
     {
         crate::process_text(source, Self::parse_text)
     }

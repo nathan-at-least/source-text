@@ -1,6 +1,6 @@
 //! Enable API's that consume `&str` to retrieve the text string from any `LoadSource` source while tracking the origin.
 //!
-//! Terminology:
+//! # Terminology
 //!
 //! This crate uses some terminology to help in disambiguation:
 //!
@@ -33,34 +33,32 @@
 //!     }
 //! }
 //!
-//! fn main() {
-//!     let err1 = Config::parse_source("").err().unwrap();
+//! let err1 = Config::parse_source("").err().unwrap();
 //!
-//!     assert_eq!(
-//!         format!("{:?}", err1).trim_end(),
-//!         indoc! {
-//!         r#"
-//!            Error in <string>:
+//! assert_eq!(
+//!     format!("{:?}", err1).trim_end(),
+//!     indoc! {
+//!     r#"
+//!        Error in <input>:
 //!
-//!            Caused by:
-//!                empty input
-//!         "#
-//!         }.trim_end()
-//!     );
+//!        Caused by:
+//!            empty input
+//!     "#
+//!     }.trim_end()
+//! );
 //!
-//!     let configpath = std::path::Path::new("/__this_path_should_not_exist__");
-//!     let err2 = Config::parse_source(configpath).err().unwrap();
+//! let configpath = std::path::Path::new("/__this_path_should_not_exist__");
+//! let err2 = Config::parse_source(configpath).err().unwrap();
 //!
-//!     assert_eq!(
-//!         format!("{:?}", err2).trim_end(),
-//!         indoc! { r#"
-//!             Error in "/__this_path_should_not_exist__":
+//! assert_eq!(
+//!     format!("{:?}", err2).trim_end(),
+//!     indoc! { r#"
+//!         Error in "/__this_path_should_not_exist__":
 //!
-//!             Caused by:
-//!                 No such file or directory (os error 2)
-//!         "# }.trim_end(),
-//!     );
-//! }
+//!         Caused by:
+//!             No such file or directory (os error 2)
+//!     "# }.trim_end(),
+//! );
 //! ```
 //!
 //! # Example: `process_text`
@@ -99,11 +97,18 @@
 //! ```
 
 mod load;
+mod ownedsource;
+mod parsable;
 mod process;
 mod source;
-mod parsable;
 
 pub use self::load::LoadSource;
+pub use self::ownedsource::OwnedSource;
+pub use self::parsable::Parsable;
 pub use self::process::{process_source, process_text};
 pub use self::source::Source;
-pub use self::parsable::Parsable;
+
+/// Describe optional names consistently between [Source] and [OwnedSource].
+fn optname_to_str(x: Option<&str>) -> &str {
+    x.unwrap_or("<input>")
+}
