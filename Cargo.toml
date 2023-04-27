@@ -1,9 +1,10 @@
 [package]
 name = "source-text"
+description = "Process &str from either a file or in-memory string w/ the source in help context."
+repository = "https://github.com/nathan-at-least/source-text.git"
 version = "0.1.0"
 edition = "2021"
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+license = "MIT"
 
 [dependencies]
 anyhow = "1.0.62"
