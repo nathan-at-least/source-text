@@ -1,12 +1,12 @@
 use crate::Source;
 
+/// An [OwnedSource] owns a `text` string with an optional `name` denoting the origin.
 #[derive(Debug)]
 pub struct OwnedSource {
     name: Option<String>,
     text: String,
 }
 
-/// An [OwnedSource] owns a `text` string with an optional `name` denoting the origin.
 impl OwnedSource {
     /// Create a new [OwnedSource] with an optional origin name. Example: `OwnedSource::new(Some("<built-in>"), "my text")`
     pub fn new<N, T>(optname: Option<N>, text: T) -> Self
